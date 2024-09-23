@@ -6,12 +6,10 @@ import { cacheResults } from "../redux/searchSlice";
 
 const Head = () => {
   const dispatch = useDispatch();
-  const searchCache =useSelector(store => store.search);
+  const searchCache = useSelector((store) => store.search);
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestion, setSuggestion] = useState([]);
-  const [showSuggestion,setShowSuggestion] = useState(false);
-
-
+  const [showSuggestion, setShowSuggestion] = useState(false);
 
   const search = async () => {
     console.log(searchQuery);
@@ -19,34 +17,31 @@ const Head = () => {
     const data = await response.json();
     setSuggestion(data[1]);
 
-    dispatch(cacheResults(
-      {
-        [searchQuery]:data[1]
-      }
-    ))
-
+    dispatch(
+      cacheResults({
+        [searchQuery]: data[1],
+      })
+    );
   };
-
-
 
   useEffect(() => {
     const timer = setTimeout(() => {
-
-      if(searchCache[searchQuery]){
+      if (searchCache[searchQuery]) {
         setSuggestion(searchCache[searchQuery]);
-      }else{
+      } else {
         search();
       }
-      
-
     }, 200);
+    const handleScroll = () => {
+      setShowSuggestion(false); // Hide suggestion bar when scrolling
+    };
 
+    window.addEventListener("scroll", handleScroll);
     return () => {
       clearTimeout(timer);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [searchQuery]);
-
-
 
   const handleToggleMenu = () => {
     dispatch(toggleisMenuOpen());
@@ -78,8 +73,7 @@ const Head = () => {
             className="w-1/2   py-1 ml-32 rounded-l-full outline-none border-gray-500 border px-4 "
             type="text"
             onChange={(e) => setSearchQuery(e.target.value)}
-            onMouseEnter={ ()=>setShowSuggestion(true)}
-            
+            onMouseEnter={() => setShowSuggestion(true)}
           />
           <button className="border py-1 rounded-r-full bg-gray-100 border-gray-500 px-2">
             <i className="fa fa-search w-5"></i>
@@ -87,7 +81,10 @@ const Head = () => {
         </div>
 
         {showSuggestion && (
-          <div onMouseLeave={()=>setShowSuggestion(false)} className="fixed mx-32 px-5 py-2 w-[31rem] border border-gray-200 rounded-lg shadow-2xl bg-white ">
+          <div
+            onMouseLeave={() => setShowSuggestion(false)}
+            className="fixed mx-32 px-5 py-2 w-[31rem] border border-gray-200 rounded-lg shadow-2xl bg-white "
+          >
             <ul>
               {suggestion?.map((data) => (
                 <li className="px-2  text-lg hover:bg-gray-200 cursor-pointer">
