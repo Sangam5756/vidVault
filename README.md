@@ -41,3 +41,11 @@
 ### it work like above  every key stroke will render the component and the timer will reset and so no api call will made.
 ### if there is no key stroke is pressed then after 200ms. api call will made.
     
+
+# Build the cache so no need to make api call again for same query
+
+### use object to store the data 
+ - because of key value pair time complextity O(1)
+ - suppose we use array in the array it takes the O(n) to find query
+
+

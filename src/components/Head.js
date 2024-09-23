@@ -1,29 +1,52 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleisMenuOpen } from "../redux/appSlice";
 import { YOUTUBE_SEARCH_API } from "../utils/constants";
+import { cacheResults } from "../redux/searchSlice";
 
 const Head = () => {
   const dispatch = useDispatch();
+  const searchCache =useSelector(store => store.search);
   const [searchQuery, setSearchQuery] = useState("");
+  const [suggestion, setSuggestion] = useState([]);
+  const [showSuggestion,setShowSuggestion] = useState(false);
 
-  console.log(searchQuery);
+
 
   const search = async () => {
+    console.log(searchQuery);
     const response = await fetch(YOUTUBE_SEARCH_API + searchQuery);
     const data = await response.json();
-    console.log(data[1]);
+    setSuggestion(data[1]);
+
+    dispatch(cacheResults(
+      {
+        [searchQuery]:data[1]
+      }
+    ))
+
   };
+
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      search();
+
+      if(searchCache[searchQuery]){
+        setSuggestion(searchCache[searchQuery]);
+      }else{
+        search();
+      }
+      
+
     }, 200);
 
     return () => {
       clearTimeout(timer);
     };
   }, [searchQuery]);
+
+
 
   const handleToggleMenu = () => {
     dispatch(toggleisMenuOpen());
@@ -50,14 +73,31 @@ const Head = () => {
 
       {/* Search  */}
       <div className="col-span-10 ">
-        <input
-          className="w-1/2   py-1 ml-32 rounded-l-full outline-none border-gray-500 border px-4 "
-          type="text"
-          onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button className="border py-1 rounded-r-full bg-gray-100 border-gray-500 px-2">
-          <i className="fa fa-search w-5"></i>
-        </button>
+        <div>
+          <input
+            className="w-1/2   py-1 ml-32 rounded-l-full outline-none border-gray-500 border px-4 "
+            type="text"
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onMouseEnter={ ()=>setShowSuggestion(true)}
+            
+          />
+          <button className="border py-1 rounded-r-full bg-gray-100 border-gray-500 px-2">
+            <i className="fa fa-search w-5"></i>
+          </button>
+        </div>
+
+        {showSuggestion && (
+          <div onMouseLeave={()=>setShowSuggestion(false)} className="fixed mx-32 px-5 py-2 w-[31rem] border border-gray-200 rounded-lg shadow-2xl bg-white ">
+            <ul>
+              {suggestion?.map((data) => (
+                <li className="px-2  text-lg hover:bg-gray-200 cursor-pointer">
+                  <i className="fa fa-search w-5"></i>
+                  {data}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </div>
 
       {/* user-icon */}
