@@ -118,7 +118,7 @@ const Comment = ({ data }) => {
         src="https://www.iconpacks.net/icons/2/free-user-icon-3296-thumb.png"
         alt="user-icon"
       />
-      <div className="px-2">
+      <div className="pzx-2">
         <p className="font-bold ">{name}</p>
         <p>{text}</p>
       </div>

@@ -24,7 +24,7 @@ const SideBar = () => {
                 <li>Sports</li>
                 <li>Gaming</li>
                 <li>Movies</li>
-            </ul>
+            </ul>z
             <hr />
         <h1 className='font-bold pt-5'>Watch Later</h1>
             <ul>    

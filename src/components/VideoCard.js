@@ -14,7 +14,7 @@ const VideoCard = ({ info }) => {
         <li className="font-bold">{title}</li>
         <li className="">{channelTitle}</li>
         <li className="text-sm">{statistics.viewCount} Views</li>
-      </ul>
+      </ul>z
     </div>
   );
 };
