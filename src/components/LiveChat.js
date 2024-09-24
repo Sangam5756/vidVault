@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ChatMessage from "./ChatMessage";
 import { useDispatch, useSelector } from "react-redux";
 import { addMessage } from "../redux/chatSlice";
-import { message } from "antd";
+
 import { generate, makeid } from "../utils/helper";
 
 const chatData = [
