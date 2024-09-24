@@ -50,3 +50,15 @@
 # nested Comments
 
 - we also learn how the N no of nested comments work and how to create
+
+
+# Infinite scroll and pagination in live chat
+  ## challanges
+   - Get data live
+   - Update the Ui such way it should no freeze
+
+  ## TWO WAYS TO DO THAT
+
+     - WebSocket (Two Way Connection) no interval send data directly in any direction
+
+     - API/Long polling (ONE WAY)some interval later request goes to backend
