@@ -62,3 +62,4 @@
      - WebSocket (Two Way Connection) no interval send data directly in any direction
 
      - API/Long polling (ONE WAY)some interval later request goes to backend
+
